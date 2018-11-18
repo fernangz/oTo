@@ -14,12 +14,14 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
 
 <p>For a simple example a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you verify thist code:</p>
 <pre>
-@html > body
-<script type="text/javascript" src="/oTo/engine.js"></script>
 
-@broser javascript console
-oTo.log('example')
+  @html > body
+  <script type="text/javascript" src="/oTo/engine.js"></script>
 
-#console
-"example"
+  @browser javascript console
+  oTo.log('example')
+
+  #console output
+  "example"
+
 </pre>
