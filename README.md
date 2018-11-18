@@ -1,5 +1,5 @@
 # oTo
-Objtect Transport for Objects
+Objtect Transport Object
 
 oTo is a library that is based in a single object: oTo
 
