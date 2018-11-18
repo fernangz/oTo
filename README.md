@@ -10,9 +10,10 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
 
 <hr>
 
-<strong>oTo</strong> is a library that is based in a single object: oTo
+<strong>oTo</strong> is based around the concept of a single auto extendable object with a non defined number of properties stored on files located at the /oTo/parts folder.
 
-<p>For a simple example a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you verify thist code:</p>
+For a simple example a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you verify thist code:
+
 <pre>
 @html > body
     <script type="text/javascript" src="/oTo/engine.js"></script>
