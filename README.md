@@ -18,7 +18,7 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
     <script type="text/javascript" src="/oTo/engine.js"></script>
 @console
     oTo.log('example')
-    //This will load the log.js from /oTo/parts and run the function oTo.log stored on it
+    //This will load the log.js file from /oTo/parts and run the function oTo.log stored on it
 @output
     "example"
 </pre>
