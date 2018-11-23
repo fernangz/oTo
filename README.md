@@ -1,6 +1,6 @@
 <h1>oTo</h1>
 <h2>Object to Object</h2>
-<h3><a href="http://nypher.com/oTo/oTo.zip" target="_blank">Download here</a>, also available at <a href="https://nypher.com/oTo">nypher.com/oTo</a></h3>
+<h3><a href="http://nypher.com/oTo/oTo.zip" target="_blank">Download here</a>, also available at <a href="https://nypher.com/oTo/">nypher.com/oTo/</a></h3>
 <hr>
 <p><strong>oTo</strong> is a javascript object that allows to extend its properties with files located at the /oTo/parts/ folder and load them automatically uppon call to themselves.</p>
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <a href="http://mozilla.org/MPL/2.0/">http://mozilla.org/MPL/2.0/</a>.</p>
