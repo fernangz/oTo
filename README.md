@@ -7,7 +7,7 @@
 	<hr>
 	<h3>Usage</h3>
 	<p>The idea is to create more modular code and only load the properties as they are called upon. For example, a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you can use the developer console to try the following:</p>
-<xmp>@ftp
+<pre>@ftp
 	// Put the /oTo/ folder on the root of your website
 
 @html > body
@@ -20,11 +20,11 @@
 
 @output
 	"example"
-</xmp>
+</pre>
 	<hr>
 	<h3>Setup</h3>
 	<p>Some options are available to customize the way you use <strong>oTo</strong>, these are all located on the oTo object ao engine.js script:</p>
-<xmp>path:
+<pre>path:
 	// Here you can customize the folder that contains both the engine.js script and the /parts folder where all the additional properties will be stored.
 
 partsPath:
@@ -35,11 +35,11 @@ alias:
 
 dependencies:
 	// An array of dependencies that will be loaded before calling for the oTo.start function (located in /parts/start.js).
-</xmp>
+</pre>
 <hr>
 <h3>Extend it</h3>
 <p>This is the only reason for wich the <strong>oTo</strong> library was created, you can extend all properties using separated files in the following way:</p>
-<xmp>@ftp
+<pre>@ftp
 	// Create a new file under /oTo/parts/ (or the path you've customized in the setup).
 
 @new_file
@@ -55,4 +55,4 @@ dependencies:
 
 @console
 	// You are now able to use the new property: oTo.partName or oTo.partName() if it's a function.
-</xmp>
+</pre>
