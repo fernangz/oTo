@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>oTo</title>
-	<link rel="stylesheet" type="text/css" href="/oTo/css/oTo.css">
-</head>
-<body>
 	<h1>oTo</h1>
 	<h2>Object to Object</h2>
 	<h3><a href="http://nypher.com/oTo/oTo.zip" target="_blank">Download here</a>, also available at <a href="https://github.com/nypher/oTo">github.com/nypher/oTo</a></h3>
@@ -63,6 +56,3 @@ dependencies:
 @console
 	// You are now able to use the new property: oTo.partName or oTo.partName() if it's a function.
 </xmp>
-	<script type="text/javascript" src="/oTo/engine.js"></script>
-</body>
-</html>
