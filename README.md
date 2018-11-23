@@ -1,12 +1,12 @@
-	#oTo
-	<h2>Object to Object</h2>
-	<h3><a href="http://nypher.com/oTo/oTo.zip" target="_blank">Download here</a>, also available at <a href="https://github.com/nypher/oTo">github.com/nypher/oTo</a></h3>
-	<hr>
-	<p><strong>oTo</strong> is a javascript object that allows to extend its properties with files located at the /oTo/parts/ folder and load them automatically uppon call to themselves.</p>
-	<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <a href="http://mozilla.org/MPL/2.0/">http://mozilla.org/MPL/2.0/</a>.</p>
-	<hr>
-	<h3>Usage</h3>
-	<p>The idea is to create more modular code and only load the properties as they are called upon. For example, a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you can use the developer console to try the following:</p>
+#oTo
+<h2>Object to Object</h2>
+<h3><a href="http://nypher.com/oTo/oTo.zip" target="_blank">Download here</a>, also available at <a href="https://nypher.com/oTo">nypher.com/oTo</a></h3>
+<hr>
+<p><strong>oTo</strong> is a javascript object that allows to extend its properties with files located at the /oTo/parts/ folder and load them automatically uppon call to themselves.</p>
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <a href="http://mozilla.org/MPL/2.0/">http://mozilla.org/MPL/2.0/</a>.</p>
+<hr>
+<h3>Usage</h3>
+<p>The idea is to create more modular code and only load the properties as they are called upon. For example, a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you can use the developer console to try the following:</p>
 <pre>@ftp
 	// Put the /oTo/ folder on the root of your website
 
