@@ -5,23 +5,9 @@
 <hr>
 <h3>Usage</h3>
 <p>The idea is to create more modular code and only load the properties as they are called upon. For example, a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you can use the developer console to try the following:</p>
-<pre>@ftp
-    // Put the /oTo/ folder on the root of your website
-
-@html > body
-    // Call the engine.js script located in the /oTo/ folder
-    <script type="text/javascript" src="/oTo/engine.js"></script>
-
-@console
-    > oTo.log('example')
-    // This will load the log.js file from /oTo/parts and run the function oTo.log stored on it
-
-@output
-    "example"
-</pre>
-	<hr>
-	<h3>Setup</h3>
-	<p>Some options are available to customize the way you use <strong>oTo</strong>, these are all located on the oTo object ao engine.js script:</p>
+<hr>
+<h3>Setup</h3>
+<p>Some options are available to customize the way you use <strong>oTo</strong>, these are all located on the oTo object ao engine.js script:</p>
 <pre>path:
     // Here you can customize the folder that contains both the engine.js script and the /parts folder where all the additional properties will be stored.
 
