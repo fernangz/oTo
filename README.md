@@ -60,7 +60,7 @@ Multiple arguments are fully supported. The first call downloads the file; subse
 ### Node.js / Bun
 
 ```js
-const oTo = require('./oTo.js');
+const oTo = require('./oTo/engine.js');
 
 oTo.path = './lib';
 oTo.partsPath = 'modules';
