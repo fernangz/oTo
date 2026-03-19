@@ -1,5 +1,4 @@
 // oTo - Object Transport Object v2 by fernangz under license EUPL [https://eupl.eu/]
-// Compatible with Browser, Node.js (CJS), and Bun
 (function (root) {
 	var _isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 	var _cache = Object.create(null);
@@ -25,8 +24,6 @@
 	_reserved.__defineSetter__ = 1;
 	_reserved.__lookupGetter__ = 1;
 	_reserved.__lookupSetter__ = 1;
-
-	// Lazy-init head element — safe even if oTo loads before <head> exists
 	var _head = null;
 	function _getHead() {
 		if (!_head && _isBrowser) {
@@ -34,12 +31,9 @@
 		}
 		return _head;
 	}
-
 	var _pathCache = Object.create(null);
 	var _normPath = '/oTo';
 	var _normPartsPath = '/parts';
-
-	// Config keys — static null-prototype object, created once
 	var _configKeys = Object.create(null);
 	_configKeys.path = 1;
 	_configKeys.partsPath = 1;
@@ -50,11 +44,9 @@
 	_configKeys.unload = 1;
 	_configKeys.preload = 1;
 	_configKeys.status = 1;
-
 	function _joinUrl(base, sub, file) {
 		return base.replace(/\/+$/, '') + '/' + sub.replace(/^\/+|\/$+/g, '') + '/' + file.replace(/^\/+/, '');
 	}
-
 	function _partPath(name) {
 		if (_pathCache[name]) return _pathCache[name];
 		var result;
@@ -77,11 +69,9 @@
 		_pathCache[name] = result;
 		return result;
 	}
-
 	function _clearPathCache() {
 		_pathCache = Object.create(null);
 	}
-
 	function _loadScript(url, timeout, onSuccess, onError) {
 		var head = _getHead();
 		if (!head) {
@@ -115,7 +105,6 @@
 			}, timeout);
 		}
 	}
-
 	function _requirePart(name) {
 		try {
 			var result = _require(_partPath(name));
@@ -131,7 +120,6 @@
 			return { ok: false, error: e };
 		}
 	}
-
 	function _safeCall(fn, ctx, args) {
 		try { return fn.apply(ctx, args); }
 		catch (e) {
@@ -139,7 +127,6 @@
 			catch (e2) { console.error('oTo: onerror threw', e2); }
 		}
 	}
-
 	function _flushQueue(name) {
 		var cached = _cache[name];
 		if (!cached || !cached.queue || !cached.queue.length) return;
@@ -152,7 +139,6 @@
 			}
 		}
 	}
-
 	var target = {
 		path: '/oTo',
 		partsPath: '/parts',
@@ -192,10 +178,8 @@
 			if (typeof name !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(name)) return;
 			if (name in _reserved || name in _configKeys) return;
 			if (_cache[name] && (_cache[name].status === 'loaded' || _cache[name].status === 'loading')) return;
-
 			var url = _partPath(name);
 			_cache[name] = { status: 'loading', queue: [], url: url };
-
 			if (_isBrowser) {
 				_loadScript(url, target.timeout,
 					function () {
@@ -242,7 +226,6 @@
 			return result;
 		}
 	};
-
 	var oTo = new Proxy(target, {
 		get: function (tgt, prop) {
 			if (tgt.alias && tgt.alias !== _currentAlias) {
@@ -260,12 +243,8 @@
 			if (!entry && !/^[a-zA-Z0-9_-]+$/.test(prop)) {
 				return undefined;
 			}
-
 			return function () {
-				// Re-read entry inside wrapper — may have changed since get trap returned
 				var entry = _cache[prop];
-
-				// Fast path — already loaded, forward arguments directly (no slice)
 				if (entry && entry.status === 'loaded') {
 					var fn = tgt[prop];
 					if (typeof fn === 'function') {
@@ -273,25 +252,18 @@
 					}
 					return fn;
 				}
-
-				// Slow path — need to slice for queueing
 				var args = Array.prototype.slice.call(arguments);
-
-				// Auto-clear error state so next call retries
 				if (entry && entry.status === 'error') {
 					delete _cache[prop];
 					entry = null;
 				}
-
 				if (_isBrowser) {
 					if (entry && entry.status === 'loading') {
 						entry.queue.push(args);
 						return;
 					}
-
 					var url = _partPath(prop);
 					_cache[prop] = { status: 'loading', queue: [], url: url };
-
 					_loadScript(
 						url,
 						tgt.timeout,
@@ -353,7 +325,6 @@
 					root[value] = oTo;
 				}
 			}
-			// Mark as loaded + flush queue for part registrations
 			if (!(prop in _configKeys)) {
 				if (!_cache[prop]) {
 					_cache[prop] = { status: 'loaded', queue: [], url: _partPath(prop) };
@@ -379,13 +350,9 @@
 			return !!(entry && entry.status === 'loaded');
 		}
 	});
-
-	// Set forward reference so _flushQueue can use it safely
 	_oTo = oTo;
 	root.oTo = oTo;
-
 	if (typeof module !== 'undefined' && module.exports) {
 		module.exports = oTo;
 	}
-
 })(typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this)));
