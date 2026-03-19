@@ -27,7 +27,7 @@ It is **not** a bundler, a framework, or a module system like ES modules. It is 
 #### 1. Include oTo in your page
 
 ```html
-<script src="/oTo/oTo.js"></script>
+<script src="/oTo/engine.js"></script>
 ```
 
 #### 2. Create part files — one per feature
