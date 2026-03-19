@@ -9,7 +9,6 @@
 	if (_require) {
 		try { _pathMod = _require('path'); } catch (e) {}
 	}
-
 	var _reserved = Object.create(null);
 	_reserved.then = 1;
 	_reserved.toJSON = 1;
