@@ -1,42 +1,92 @@
-<h1>oTo</h1>
-<h2>Object to Object</h2>
-<p><strong>oTo</strong> is a javascript object that allows to extend its properties with files located at the /oTo/parts/ folder and load them automatically uppon call to themselves.</p>
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <a href="http://mozilla.org/MPL/2.0/">http://mozilla.org/MPL/2.0/</a>.</p>
-<hr>
-<h3>Usage</h3>
-<p>The idea is to create more modular code and only load the properties as they are called upon. For example, a log.js file is available at the /oTo/parts/ folder to explain how it works, with it you can use the developer console to try the following:</p>
-<hr>
-<h3>Setup</h3>
-<p>Some options are available to customize the way you use <strong>oTo</strong>, these are all located on the oTo object ao engine.js script:</p>
-<pre>path:
-    // Here you can customize the folder that contains both the engine.js script and the /parts folder where all the additional properties will be stored.
+# oTo — Object Transport Object v1
 
-partsPath:
-    // The name of the folder located under "path" where all the additional properties will be stored.
+## What it is
 
-alias:
-    // By default it's disabled any string here will create an alias for the oTo object, allowing you to customize the name of the object that will be used.
+A ~40-line browser-side lazy module loader built on `Proxy`. It gives you a single global object (`oTo`) where any method call automatically fetches and executes a matching JavaScript file from the server, then runs the function it defines.
 
-dependencies:
-    // An array of dependencies that will be loaded before calling for the oTo.start function (located in /parts/start.js).
-</pre>
-<hr>
-<h3>Extend it</h3>
-<p>This is the only reason for wich the <strong>oTo</strong> library was created, you can extend all properties using separated files in the following way:</p>
-<pre>@ftp
-    // Create a new file under /oTo/parts/ (or the path you've customized in the setup).
+It is **not** a bundler, a framework, or a module system like ES modules or CommonJS. It is a thin runtime that turns property access into on-demand `<script>` injection.
 
-@new_file
-    // Create the new oTo.partName (or alias_name.partName customized on the setup)
-    oTo.partName = '';
-    // The new partName can be either a property, a function or any other extension of the main object
-    oTo.partName = function(){};
-    // Some names are reserved (the ones used in the engine.js file: path, partsPath, alias, dependencies, js, engine)
-    // Also, do not use the ones employed previously (names of the .js files present in the /oTo/parts/ folder)
+## How it works internally
 
-@ftp
-    // Rename the new file with the property name: partName.js
+1. `oTo` is a `Proxy` wrapping a config object with `path`, `partsPath`, `alias`, and a `js()` script-loader utility.
+2. When you access a property that **exists** on the config (like `oTo.path`), it returns it directly.
+3. When you access a property that **doesn't exist** (like `oTo.gallery`), the proxy returns a wrapper function.
+4. Calling that function (`oTo.gallery({...})`) triggers `js()` which injects a `<script src="/oTo/parts/gallery.js">` tag into `<head>`.
+5. Once the script loads, the callback checks if `oTo.gallery` now exists (because the loaded file should have attached it), and if so, invokes it with the original arguments.
 
-@console
-    // You are now able to use the new property: oTo.partName or oTo.partName() if it's a function.
-</pre>
+## How to use it
+
+### 1. Include oTo in your page
+
+```html
+<script src="/oTo/oTo.js"></script>
+```
+
+### 2. Create part files — one per feature
+
+Each file goes in the parts folder and attaches itself to the `oTo` object:
+
+```js
+// /oTo/parts/gallery.js
+oTo.gallery = function (opts) {
+    document.getElementById(opts.target).innerHTML = '<div class="gallery">...</div>';
+};
+```
+
+```js
+// /oTo/parts/analytics.js
+oTo.analytics = function (opts) {
+    console.log('Page view:', opts.page);
+};
+```
+
+### 3. Call features from your page — they load automatically
+
+```js
+oTo.gallery({ target: 'main', images: ['a.jpg', 'b.jpg'] });
+oTo.analytics({ page: '/home' });
+```
+
+The first call downloads the file. Subsequent calls hit the already-loaded function directly (no second download).
+
+### 4. Optional: set an alias
+
+```js
+oTo.alias = 'app';
+// now you can also use:
+app.gallery({ target: 'main' });
+```
+
+### 5. Optional: change the base path
+
+```js
+oTo.path = '/assets/lib';
+oTo.partsPath = '/modules';
+// parts now load from /assets/lib/modules/{name}.js
+```
+
+## Practical use cases
+
+| Use case | How oTo helps |
+|---|---|
+| **Multi-page site with shared features** | Put common widgets (modals, galleries, forms) as parts. Each page calls only what it needs — no monolithic bundle. |
+| **Progressive enhancement** | The base page loads fast. Heavy features (maps, editors, charts) load only when the user triggers them. |
+| **Plugin architecture** | Third parties or teammates add features by dropping a file in `/parts/`. No build step, no config change — just name it and call it. |
+| **Prototyping / internal tools** | Quick setup with zero tooling. Add a file, refresh, it works. Good for dashboards, admin panels, internal apps where build pipelines are overkill. |
+| **Legacy browser environments** | Uses `var`, no arrow functions, no `import` — works in older browsers. The Proxy requirement is the only modern dependency (IE11 excluded). |
+
+## Current limitations
+
+- **Fire-and-forget**: Callers get `undefined` back, not the function's return value. The load is asynchronous but the API looks synchronous — there's no Promise or callback to chain on.
+- **No error handling**: If a part file 404s or throws, nothing reports it.
+- **No deduplication**: Calling the same unloaded part twice simultaneously injects duplicate `<script>` tags.
+- **Single argument**: The wrapper forwards one `args` parameter, so pass an object if you need multiple values.
+- **No unloading**: Once a part is loaded, it stays. There's no mechanism to remove or reload parts.
+
+## Summary
+
+oTo is a minimal "call it and it loads" pattern. It's useful when you want on-demand script loading with zero configuration and no build tools — ideal for small-to-medium projects, internal tools, or environments where simplicity and no-dependency setups matter more than production-grade module management.
+
+## License
+
+[EUPL](https://eupl.eu/)
