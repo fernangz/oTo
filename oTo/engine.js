@@ -1,7 +1,4 @@
-// oTo - Object Transport Object v1 by nypher at github.com/nypher/oTo
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v. 2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+// oTo - Object Transport Object v1 by fernangz under license EUPL [https://eupl.eu/]
 var oTo = new Proxy( {
 	// Set the path to oTo 
 	path: '/oTo',
@@ -9,12 +6,6 @@ var oTo = new Proxy( {
 	partsPath: '/parts',
 	// Set an alias for the oTo object if set you will be able to use you customNamed object as well as oTo.
 	alias: false,
-	// List oTo dependencies, if any.
-	// For local resource, use the name of the file located under "/oTo/parts/" without the .js extension.
-	// For external sources, use the complete path including "http://" or "https://".
-	dependencies: [
-		'jquery'
-	],
 	// Will be updated to support nodejs in the future
 	js : function(url, callback){
 		var h = document.getElementsByTagName("HEAD")[0];
@@ -31,21 +22,6 @@ var oTo = new Proxy( {
 			}
 		};
 	},
-	// Load dependencies first and the init.js file that contains the script using oTo.
-	engine: function(){
-		var obj = oTo.alias?window[oTo.alias]:oTo;
-		obj.engine.state = 0;
-		for (var i = obj.dependencies.length - 1; i >= 0; i--) {
-			var u = ( obj.dependencies[i].indexOf("http://") == 0 || obj.dependencies[i].indexOf("https://") == 0 ) ? obj.dependencies[i] : obj.path + obj.partsPath + '/' + obj.dependencies[i] + '.js';
-			obj.js( u, function(){
-				obj.engine.state++;
-				if(obj.engine.state === obj.dependencies.length){
-					// Call obj.start located on the /oTo/parts/start.js file
-					obj.start()
-				}
-			});
-		}
-	}
 },{
 	// Proxy that handle all oTo calls.
 	get : function(target, prop){
@@ -73,4 +49,3 @@ var oTo = new Proxy( {
 		}
     }
 });
-oTo.engine();
