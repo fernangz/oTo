@@ -1,4 +1,4 @@
-# oTo — Object Transport Object v2
+# oTo — Object Transport Object
 
 ## What it is
 
