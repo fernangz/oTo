@@ -312,7 +312,6 @@
 				_normPartsPath = value;
 				_clearPathCache();
 			} else if (prop === 'alias') {
-				// Clean up old alias global before wiring new one
 				if (_currentAlias && _currentAlias !== value && root[_currentAlias] === oTo) {
 					delete root[_currentAlias];
 				}
