@@ -5,7 +5,7 @@
 	var _currentAlias = false;
 	var _require = (!_isBrowser && typeof require === 'function') ? require : null;
 	var _pathMod = null;
-	var _oTo = null; // forward reference — set once after proxy creation
+	var _oTo = null;
 	if (_require) {
 		try { _pathMod = _require('path'); } catch (e) {}
 	}
@@ -152,11 +152,9 @@
 			if (!_cache[name] && !(name in target)) return;
 			var cached = _cache[name];
 			var originalUrl = cached && cached.url ? cached.url : _partPath(name);
-
 			delete target[name];
 			delete _cache[name];
 			delete _pathCache[name];
-
 			if (_isBrowser) {
 				var scripts = document.getElementsByTagName('script');
 				for (var i = scripts.length - 1; i >= 0; i--) {
@@ -237,7 +235,6 @@
 			if (typeof prop === 'symbol' || prop in _reserved) {
 				return undefined;
 			}
-			// Fast check: if already in cache, skip regex validation
 			var entry = _cache[prop];
 			if (!entry && !/^[a-zA-Z0-9_-]+$/.test(prop)) {
 				return undefined;
